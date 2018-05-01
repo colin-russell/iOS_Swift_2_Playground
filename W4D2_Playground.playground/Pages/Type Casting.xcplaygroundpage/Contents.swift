@@ -28,7 +28,18 @@ let myView: UIView = UIButton()
  - Experiment:
  Try using the `is` operator on `myView`. Take a look at the evaluation on the right to see what the results are. ie: `myView is UIView`. Try checking if `myView` is any of the following views: `UIButton`, `UITableView`, `UIImageView`
  */
-
+//if myView is UIView {
+//    print("myView is UIView")
+//}
+if myView is UIButton {
+    print("myView is UIButton")
+}
+if myView is UITableView {
+    print("myView is UITableView")
+}
+if myView is UIImageView {
+    print("myView is UIImageView")
+}
 
 /*:
  - Experiment:
@@ -45,12 +56,18 @@ let myView: UIView = UIButton()
 
 let myCastedButtonView = myView as? UIButton
 
-
 /*:
  - Experiment:
  Now that we downcast our `myView` to an actual UIButton, use conditional unwrapping to ensure it is not nil, then try calling the `setTitle` method to ensure it can be called.
  */
-
+func condUnwrap() {
+    guard myCastedButtonView != nil else {
+        print("myCastedButtonView is nil")
+        return
+    }
+    myCastedButtonView!.setTitle("title", for: UIControlState.disabled)
+}
+condUnwrap()
 
 /*:
  - Callout(Challenge):
@@ -67,7 +84,16 @@ view.addSubview(UIButton())
 /*:
  And we need to find all buttons. Write a function to search for `UIButtons` in this view's `subviews`, and return an array will all the buttons.
  */
-
+func findButtons() -> Array<UIButton>{
+    var buttons: Array<UIButton> = []
+    for view in view.subviews {
+        if view is UIButton {
+            buttons.append(view as! UIButton)
+        }
+    }
+    return buttons
+}
+findButtons()
 
 /*:
  - Callout(Challenge - Part 1):
@@ -82,16 +108,28 @@ class MediaItem {
 }
 
 class Movie: MediaItem {
+    var director = ""
+    
+    init(name: String, director: String) {
+        super.init(name: name)
+        self.director = director
+    }
 }
 
 class Song: MediaItem {
+    var artist = ""
+    
+    init(name: String, artist: String) {
+        super.init(name: name)
+        self.artist = artist
+    }
 }
 
 /*:
  - Callout(Challenge - Part 2):
  Now take the array below of MediaItems and create a for loop on the array that prints out what type of media item it is and print out their properties.
  */
-/*
+
 let library = [
   Movie(name: "Casablanca", director: "Michael Curtiz"),
   Song(name: "Blue Suede Shoes", artist: "Elvis Presley"),
@@ -99,6 +137,18 @@ let library = [
   Song(name: "The One And Only", artist: "Chesney Hawkes"),
   Song(name: "Never Gonna Give You Up", artist: "Rick Astley")
 ]
-*/
+
+for i in 0..<library.count {
+    if library[i] is Movie  {
+        let movie = library[i] as! Movie
+        print("Movie with name: \(movie.name) and director: \(movie.director)")
+    } else if library[i] is Song {
+        let song = library[i] as! Song
+        print("Song with name: \(song.name) and artist: \(song.artist)")
+    } else {
+        print("not a Song or Movie")
+    }
+}
+
 
 //: [Next](@next)

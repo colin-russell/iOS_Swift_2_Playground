@@ -53,25 +53,50 @@ catch let error {
  - Experiment:
  Create a Human class that has a name and age property. Also, create an initializer for this class to set its initial properties.
  */
+class Human {
+    var name: String
+    var age: Int
+    
+    init(name: String, age: Int) throws {
+        self.name = name
+        self.age = age
+        
+        if name.isEmpty {
+            throw HumanError.NameCannotBeEmpty
+        }
+        if age < 0 {
+            throw HumanError.AgeIsInvalid
+        }
+    }
 
+    
+}
 
 /*:
  - Experiment:
  Create your own errors that throw when the name provided is empty or if the age is invalid. Go back and update the Human's initializer to throw an error when the data passed in is invalid.
  */
-
+enum HumanError: Error {
+    case NameCannotBeEmpty
+    case AgeIsInvalid
+}
 
 /*:
  - Experiment:
  Now you can test your new Human class and surround it around the do-catch blocks.
  */
-
+//do {
+//    try Human.init(name: "Colin", age: -24)
+//} catch let error {
+//    print("oh no! Error is caught: \(error)")
+//}
 
 /*:
  - Experiment:
  Test your Human class again but don't surround it with a do-catch block and use `try?` instead. What do you notice? (What is the value of the new human when an error is thrown?)
  */
-
+var human = try? Human.init(name: "Colin", age: -24)
+// the value is nil when the error is thrown
 
 /*:
  - Experiment:
@@ -80,16 +105,17 @@ catch let error {
  `class func jsonObject(with data: Data, options opt: JSONSerialization.ReadingOptions = []) throws -> Any`
  */
 let data = "{\"firstName\": \"Bob\", \"lastName\": \"Doe\", \"vehicles\": [\"car\", \"motorcycle\", \"train\"]}".data(using: .utf8)!
-
+var parseData = try JSONSerialization.jsonObject(with: data, options: [])
+print(parseData)
 
 /*:
  - Callout(Challenge):
  Going back to our challenge from "More Optionals", let's rewrite the form valiation but we will use throw errors to indicate which piece is missing. We want to write a function that validates form data filled in by a user. Once we encounter the first field that is blank, we want to throw an error indicating which field is empty. Otherwise, print out all the information.
  */
 // Should pass all checks and print all information
-let username: String? = "user1"
-let password: String? = "password123"
-let email: String? = "user1@lighthouselabs.ca"
+//let username: String? = "user1"
+//let password: String? = "password123"
+//let email: String? = "user1@lighthouselabs.ca"
 
 // Should stop at password check and throw an error regarding empty password
 //let username: String? = "user1"
@@ -97,10 +123,38 @@ let email: String? = "user1@lighthouselabs.ca"
 //let email: String? = "user1@lighthouselabs.ca"
 
 // Should stop at username check and throw an error regarding empty user name
-//let username: String? = nil
-//let password: String? = nil
-//let email: String? = "user1@lighthouselabs.ca"
+let username: String? = nil
+let password: String? = nil
+let email: String? = "user1@lighthouselabs.ca"
 
+enum FormError: Error {
+    case UsernameCannotBeBlank
+    case PasswordCannotBeBlank
+    case EmailCannotBeBlank
+}
+
+func formCheck() throws {
+    
+    guard username != nil else {
+        //print("username is blank")
+        throw FormError.UsernameCannotBeBlank
+    }
+    guard password != nil else {
+        throw FormError.PasswordCannotBeBlank
+    }
+    guard email != nil else {
+        throw FormError.EmailCannotBeBlank
+    }
+    print("username: \(username ?? "empty") password: \(password ?? "empty") email: \(email ?? "empty")")
+}
+
+try? formCheck()
+
+do {
+    try formCheck()
+} catch let error {
+    print("error: \(error)")
+}
 
 /*:
  - Callout(Challenge):
@@ -110,13 +164,28 @@ let email: String? = "user1@lighthouselabs.ca"
  
  Throw an error if the model doesn't exist, insufficient amount of money was given, or the car is out of stock.
  */
+enum CarError: Error {
+    case ModelMustExist
+    case InsufficientMoney
+    case CarOutOfStock
+}
+
 class HondaDealership{
   
   var availableCarSupply = ["Civic" : (price: 5000, count: 5),
                             "CRV" : (price: 7000, count: 9),
                             "Prelude" : (price: 9000, count: 2)]
   
-  
+    func sellCar(model: String, offeredPrice: Int) throws {
+        
+        if availableCarSupply.index(forKey: model) == nil {
+            throw CarError.ModelMustExist
+        } else if offeredPrice < (availableCarSupply[model]?.price)! {
+            throw CarError.InsufficientMoney
+        } else if availableCarSupply[model]?.count == 0 {
+            throw CarError.CarOutOfStock
+        }
+    }
   
 }
 

@@ -7,25 +7,30 @@
  - Experiment:
  Declare a optional Double value and set it to nil.
  */
-
+var optD: Double? = nil
 
 /*:
  - Experiment:
  Assign a value your optional Double.
  */
-
+optD = 3.14
 
 /*:
  - Experiment:
  Force unwrap the optional value. Why do you have to be careful about force unwrapping?
  */
-
+optD!
+// you have to be careful because it might not be set to a value since it's optional
 
 /*:
  - Experiment:
  Use conditional unwrapping to verify if the optional has a value. Print the value if there is something, otherwise, print out to indicate there is no value present. Why is conditional unwrapping better than force unwrapping?
  */
-
+if (optD != nil) {
+    print(optD!)
+} else {
+    print("optD has no value")
+}
 
 /*:
  - Callout(Challenge):
@@ -33,6 +38,17 @@
  */
 var testData: [String?] = ["Heather", nil, "Mike", "John", nil, nil, "Bob"]
 
+func removeNil (array: Array<String?>) -> Array<String> {
+    var stuff: [String] = []
+    for e in array {
+        if e != nil {
+            stuff.append(e!)
+        }
+    }
+    return stuff
+}
+
+print(removeNil(array: testData))
 
 /*:
  - Callout(Challenge):
@@ -41,9 +57,9 @@ var testData: [String?] = ["Heather", nil, "Mike", "John", nil, nil, "Bob"]
  Below is some test data you can use to test your function.
  */
 // Should pass all checks and print all information
-let username: String? = "user1"
-let password: String? = "password123"
-let email: String? = "user1@lighthouselabs.ca"
+//let username: String? = "user1"
+//let password: String? = "password123"
+//let email: String? = "user1@lighthouselabs.ca"
 
 // Should stop at password check and indicate password field is empty
 //let username: String? = "user1"
@@ -51,11 +67,22 @@ let email: String? = "user1@lighthouselabs.ca"
 //let email: String? = "user1@lighthouselabs.ca"
 
 // Should stop at username check and indicate username field is empty
-//let username: String? = nil
-//let password: String? = nil
-//let email: String? = "user1@lighthouselabs.ca"
+let username: String? = nil
+let password: String? = nil
+let email: String? = "user1@lighthouselabs.ca"
 
-
+func formCheck () {
+    if username == nil {
+        print("username is blank")
+    } else if password == nil {
+        print("password is blank")
+//    } else if email == nil {
+//        print("email is blank")
+    } else {
+        print("username: \(username ?? "empty") password: \(password ?? "empty") email: \(email ?? "empty")")
+    }
+}
+formCheck()
 
 /*:
  ## Guard Let

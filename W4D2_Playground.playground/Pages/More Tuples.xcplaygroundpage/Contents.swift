@@ -9,16 +9,34 @@ import Foundation
 /*:
  Imagine we are rolling two six-sided dice. We can use a tuple to represent each of the dice values.
  */
-let diceRoll = (5, 6)
+//let diceRoll = (5, 6)
+let diceRoll = (6, 6)
 
 // Our switch statement looks for the cases where the total value of the dice rolled is 11
+//switch diceRoll {
+//case (5, 6):
+//  print("We got 11!")
+//case (6, 5):
+//  print("We got 11!")
+//default:
+//  print("This roll doesn't matter to us")
+//}
+
 switch diceRoll {
 case (5, 6):
-  print("We got 11!")
+    print("We got 11!")
 case (6, 5):
-  print("We got 11!")
+    print("We got 11!")
+//case (_, 1):
+//    print("second dice was a 1")
+//case (2, _):
+//    print("first dice was a 2")
+//case (1...3, 1...3):
+//    print("both die were rolled between 1 and 3")
+case (let x, let y) where x == y:
+    print("both die were equal")
 default:
-  print("This roll doesn't matter to us")
+    print("This roll doesn't matter to us")
 }
 
 /*:
@@ -29,7 +47,7 @@ default:
  - case (1...3, 1...3)
  - case (let x, let y) where x == y
  */
-
+// see above ^^
 
 /*:
  - Callout(Challenge):
@@ -41,6 +59,22 @@ default:
  - Otherwise, indiciate the given day is not a holiday
  */
 
+let month = "Feb"
+let day = 14
+let holiday = (month, day)
+
+switch holiday {
+case ("Dec", 25):
+    print("Christmas Day")
+case ("Jan", 1):
+    print("New Years Day")
+case ("Feb", 14):
+    print("Valentine's Day")
+case ("Oct", 31):
+    print("Halloween Day")
+default:
+    print("Not a holiday, bud.")
+}
 
 /*:
  - Callout(Challenge):
@@ -55,5 +89,19 @@ default:
  - point is outside the blue outlined box
  */
 
+let point = (0, 1)
+
+switch point {
+//case (_, 0):
+//    print("point is on the x axis")
+//case (0, _):
+//    print("point is on the y axis")
+case (let x, let y) where abs(x) < 2 || abs(y) > 2:
+    print("point is inside the blue outlined box")
+case (let x, let y) where abs(x) > 2 || abs(y) > 2:
+    print("point is outsde the blue outlined box")
+default:
+    print("nothing")
+}
 
 //: [Next](@next)

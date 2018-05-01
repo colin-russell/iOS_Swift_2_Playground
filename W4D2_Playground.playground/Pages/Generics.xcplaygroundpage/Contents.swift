@@ -33,6 +33,10 @@ printMyTwoNumbers(num1: "three", num2: "four")
  - Experiment:
  Now you try! Write a generic function that takes in two parameters and multiply their value together and print the result. (Hint: You might run into an error after finishing. Continue to the next experiment to find out why!)
  */
+func multiply1<Generic>(num1: Generic, num2: Generic) {
+    //var result = num1*num2 ERROR
+    //print(result)
+}
 
 
 /*:
@@ -41,14 +45,20 @@ printMyTwoNumbers(num1: "three", num2: "four")
  */
 
 func multiply<Element: Numeric>(num1: Element, num2: Element) {
-  
+ 
 }
-
 
 /*:
  - Experiment:
  Update your multiplication function and test it! Try using different variable types to see what works and what doesn't.
  */
+func multiply2<Element: Numeric>(num1: Element, num2: Element) {
+    let result = num1 * num2
+    print("num1 times num2 = \(result)")
+}
+multiply2(num1: 3, num2: 7)
+multiply2(num1: 2.6, num2: 1.3)
+multiply2(num1: 1.0, num2: 2)
 
 
 /*:
@@ -60,6 +70,16 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  For this experiment, refrain from using the array method `indexOf`. Also the protocol `Equatable` might be useful here. Search it up to see what it's about.
  */
 
+func indexOfElement<Element: Equatable>(array: [Element], element: Element) -> Int? {
+    for i in 0..<array.count {
+        if array[i] == element {
+            return i
+        }
+    }
+    return nil
+}
+
+indexOfElement(array: [0, 4, 7, 2], element: 2)
 
 
 /*:
@@ -75,6 +95,17 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  - dequeue: remove an item from the queue, and return the removed element
  */
 
+struct Queue<GenericType> {
+    var stuff = [GenericType]()
+    
+    mutating func enqueue(item: GenericType) {
+        stuff.append(item)
+    }
+    
+    mutating func dequeue () -> GenericType {
+        return stuff.removeFirst()
+    }
+}
 
 
 //: [Next](@next)

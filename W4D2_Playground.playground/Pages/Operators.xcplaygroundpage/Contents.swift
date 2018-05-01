@@ -45,7 +45,15 @@ let combinedValues = "abc" + 123
  - Experiment:
  Use the '*' operator to multiply a String and an Int. This returns a new String and repeats the given String the number of times delcared by the Int. ie: "abc" * 3 = "abcabcabc"
  */
+func * (left: String, right: Int) -> String {
+    var result = ""
+    for _ in 1...right {
+        result = "\(result)\(left)"
+    }
+    return result
+}
 
+let multipliedString = "def" * 9
 
 /*:
  - Experiment:
@@ -58,12 +66,13 @@ let combinedValues = "abc" + 123
 extension Int {
   
   // Comment this function in to try it!
-  //    static func + (left: Int, right: Int) -> Int{
-  //
-  //        return left - right
-  //    }
+//      static func + (left: Int, right: Int) -> Int{
+//
+//          return left - right
+//      }
 }
 
+let r = 1+2 // -1 with the overloaded operator
 
 /*:
  ### Custom Operators
@@ -86,6 +95,13 @@ var incrementTwo = incrementOne+++
  - Experiment:
  Create your own custom operator using the square root symbol here: √
  */
+prefix operator √
+prefix func √ (number: Double) -> Double{
+    return sqrt(number)
+}
+
+var squareRoot1 = √9
+var squareRoot2 = √5
 
 
 /*:

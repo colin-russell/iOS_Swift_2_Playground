@@ -115,7 +115,13 @@ var squareRoot2 = √5
  - Callout(Challenge):
  When we have percentage values, we tend to convert them into their decimal form before doing any arithmetic to them. Create an operator with the '%' that will be a convenient operator to convert Int values into a usable percentage value. ie: 10% = 0.1
  */
+postfix operator %
+postfix func % (number: Double) -> Double {
+    return number/100
+}
 
+var percentToDecimal1 = 10%
+var percentToDecimal2 = 69%
 
 /*:
  - Callout(Challenge):
@@ -123,7 +129,20 @@ var squareRoot2 = √5
  
  For example, [1,2] + [3,4] = [4,6]. If the array count size are not the same, then return nil
  */
+func + (array1: [Int], array2: [Int]) -> Array<Int>? {
+    if array1.count == array2.count {
+        var result: Array<Int> = []
+        for i in 0..<array1.count {
+            result.append(array1[i]+array2[i])
+        }
+        return result
+    } else {
+        return nil
+    }
+}
 
+[1,2,1]+[0,5,3]
+[1]+[4,5,9]
 
 
 //: [Next](@next)
